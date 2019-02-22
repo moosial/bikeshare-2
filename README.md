@@ -1,17 +1,15 @@
-# bikeshare-2
-program to analyze bikesahre data in
-## Chicago
-## Washington
-## New York City
+# bikeshare-2 Project Udacity Programming for Data Science
+Program to analyze bikesahre data in major US cities:
+- Chicago
+- Washington
+- New York City
 
-# Prerequisite
+# Prerequisites
 Pls. place all files in one folder prior to execution.
 
-# Python Files
-## bikeshare_2.py
-## get_filter.py
-## load_data.py
-## stats-py
+* Python Files
+- bikeshare_2.py
+
 
 # Paramter files
 ## paramters.xslx
