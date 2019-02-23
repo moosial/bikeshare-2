@@ -309,6 +309,24 @@ def user_stats(df):
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
+def display_raw(df):
+   #Simply keep displaying five lines of the filtzered data if the user wnat to. """"
+    
+    count=0;
+    while True:
+        display = input('\n......Would you like to view individual trip data belonging to your filter?\n'
+                        '......Pls. type yes (y) or no (n). Your choice: ')
+        if display.lower() in ('yes', 'no','y','n'):
+            if display.lower() == 'yes' or display.lower() == 'y':
+                """ simply acces by a range which increases by 5 """                
+                print(df[count:count+5].to_string())
+                count +=5
+            else:
+                print('......Display of the data ends!')
+                break
+        else:    
+            print('.....Enter a valid input provided in the options')
+
 
 
 
@@ -322,11 +340,20 @@ def main():
             station_stats(df)
             trip_duration_stats(df)
             user_stats(df)
+            display_raw(df)
         else:
-            print('The filters applied to the data returned no results!')
-        restart = input('\nWould you like to restart? Enter yes or no.\n')
-        if restart.lower() != 'yes':
-            break
+            print('......The filters applied to the data returned no results!')
+            
+        restart = input('\n......Would you like to restart?\n......Pls. type yes (y) or no (n). Your choice: ')
+        
+        if restart.lower() in ('yes', 'no','y','n'):
+            if restart.lower() in ('yes', 'y'):
+                print('......Let\'s continue.')
+            else:
+                print('......bye bye...')
+                break
+        else:
+            print('.....Enter a valid input provided in the options')
 
 
 if __name__ == "__main__":
