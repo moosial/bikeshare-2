@@ -24,7 +24,7 @@ def get_filters():
         print(str(er)) 
         sys.exit()
        
-    export_month = month_data
+
     
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     while True :
@@ -37,14 +37,14 @@ def get_filters():
 
             if city in city_data.city_lower.values:
                 # now get the city name 
-                city_data = city_data.set_index(['city_lower'])
+                city_data = city_data.set_index(['city_lower'],drop=False)
                 city = city_data['city'].loc[city]
                 print('-'*40)
                 break
            
             elif city in city_data.city_key.values:
                 # now get the city name 
-                city_data = city_data.set_index(['city_key'])
+                city_data = city_data.set_index(['city_key'],drop=False)
                 city = city_data['city'].loc[city]
                 print('-'*40)
                 break 
@@ -68,24 +68,24 @@ def get_filters():
         
                
         for i in range(0, length, 1):
-            month_short = month_data['month_short'].loc[i] 
-            month_long = month_data['month_long'].loc[i]    
+            month_short = month_data['month_short'].iloc[(i)] 
+            month_long = month_data['month_long'].iloc[(i)]    
             print('[{}]- {} -- {}'.format(i,month_short, month_long))
         
         month = input('......Your input:___ ').capitalize()
-           
          
         try:
             if  month in month_data.month_key.values:
-                # now get the month name 
-                month_data = month_data.set_index(['month_key'])
+                # now get the month name J
+                month_data = month_data.set_index(['month_key'],drop=False)
                 month = month_data['month_long'].loc[month]
                 print('-'*40)
                 break
+
             
             elif month in month_data.month_short.values:
                 # now get the month name 
-                month_data = month_data.set_index(['month_short'])
+                month_data = month_data.set_index(['month_short'],drop=False)
                 month = month_data['month_long'].loc[month]
                 print('-'*40)
                 break
@@ -95,9 +95,9 @@ def get_filters():
                 month = month
                 print('-'*40)
                 break
-                
+            
             else: 
-                print('......Wrong Input! Enter Numbers (1-12) or Month short or long like Jan or January!')
+               print('......Wrong Input! Enter Numbers (1-12) or Month short or long like Jan or January!')
             
               
         except Exception as er:
@@ -127,14 +127,14 @@ def get_filters():
         try:
             if  day in day_data.day_key.values:
                 # now get the month name 
-                day_data = day_data.set_index(['day_key'])
+                day_data = day_data.set_index(['day_key'],drop=False)
                 day = day_data['day_long'].loc[day]
                 print('-'*40)
                 break
             
             elif day in day_data.day_short.values: 
                 # now get the month name 
-                day_data = day_data.set_index(['day_short'])
+                day_data = day_data.set_index(['day_short'],drop=False)
                 day = day_data['day_long'].loc[day]
                 print('-'*40)
                 break
@@ -154,8 +154,10 @@ def get_filters():
 
     print('Your choice for day: {}. Thank you.'.format(day))
     print('-'*40)
-    return city, month, day, file2load, export_month
-
+    
+    
+    return city, month, day, file2load, month_data
+  
 
 def load_data(month, day, file2load, month_data):
     """
@@ -183,18 +185,18 @@ def load_data(month, day, file2load, month_data):
     df['Start Time'] = pd.to_datetime(arg = df['Start Time'], format = '%Y-%m-%d %H:%M:%S')
 
     # filter by month if applicable
-    if month != 'all':
+    if month != 'All':
         # extract month and day of week from Start Time to create new columns
         df['month'] = df['Start Time'].dt.month
         
-        month_data = month_data.set_index(['month_long'])
+        month_data = month_data.set_index(['month_long'],drop=False)
         month_idx = int(month_data['month_key'].loc[month])
         
         # filter by month to create the new dataframe
         df = df.loc[df['month'] == month_idx]
 
     # filter by day of week if applicable
-    if day != 'all':
+    if day != 'All':
         df['day_of_week'] = df['Start Time'].dt.weekday_name
 
         # filter by day of week to create the new dataframe
